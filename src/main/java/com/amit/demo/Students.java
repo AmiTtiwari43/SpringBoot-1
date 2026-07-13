@@ -1,5 +1,8 @@
 package com.amit.demo;
 
+import org.springframework.stereotype.Component;
+
+@Component
 public class Students {
     private String name;
     private int age;
@@ -30,3 +33,4 @@ public class Students {
     }
 
 }
+
