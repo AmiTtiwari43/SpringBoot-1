@@ -1,4 +1,4 @@
-package com.amit.demo;
+package com.amit.demo.Java;
 
 class P {
     void n1(){}
