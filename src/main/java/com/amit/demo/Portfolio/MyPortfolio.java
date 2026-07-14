@@ -34,5 +34,32 @@ public class MyPortfolio {
                 """;
     }
 
+    @GetMapping("/education")
+    public String Education() {
+        return """
+                <h1>Education</h1>
+                <div><h3>Lovely Professional University</h3>
+                        Phagwara , Punjab
+                        <br>
+                        CGPA : 8.0
+                        <br>
+                        Since 2023
+                </div>
+                 <div><h3>Kendriya Vidhyalaya No. 1 Patiala Cantt</h3>
+                        Patiala , Punjab
+                        <br>
+                        Percentage : 80
+                        <br>
+                        2022-2023
+                </div>
+                 <div><h3>Kendriya Vidhyalaya No. 1 Patiala Cantt</h3>
+                        Patiala , Punjab
+                        <br>
+                        Percentage : 88
+                        <br>
+                        2020-2021
+                </div>
+        """;
+    }
 
 }
