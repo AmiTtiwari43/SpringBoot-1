@@ -24,6 +24,13 @@ public class MyPortfolio {
     public String Skills() {
         return """
                 <h1>Skills: </h1>
+                <ul type = "disc">
+                    <li><h3>Languages:</h3>
+                        JavaScript, Python, Java, C, C++, PHP</li>
+                    <li> <h3>Frameworks & Libraries:</h3>  HTML, CSS, React.js, Next.js, Node.js, Express.js, Redux, Flask, ESLint</li>
+                    <li><h3>Databases:</h3> MySQL, MongoDB, PostgreSQL</li>
+                    <li><h3>Tools & Platforms:</h3>Git, GitHub, VS Code, Docker, Render, Vercel, Netlify, GCP, Figma</li>
+                </ul>
                 """;
     }
 
