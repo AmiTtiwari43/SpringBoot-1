@@ -62,4 +62,38 @@ public class MyPortfolio {
         """;
     }
 
+    @GetMapping("/projects")
+    public String Projects() {
+        return """
+                <h1>Projects</h1>
+                <div>
+                    <h3>DocVerse- Doctor Appointment Management System</h3>
+                         <pre>
+                            • Built a role-based healthcare platform aligned with OWASP Top-10 security standards.
+                            • Streamlined booking with MongoDB aggregations and indexing, achieving <50ms queries and zero double bookings.
+                            • Integrated AI health triage and analytics, improving specialist accuracy ~40% and admin efficiency ~60%.
+                             Tech: React, Node.js, Express.js, MongoDB, JWT, OAuth, Tailwind CSS, Google Gemini API, SendGrid, UPI Payment</pre>
+                </div>
+                
+                <div>
+                    <h3>EventEase Lite- Event Management Platform </h3>
+                         <pre>
+                            • Architected a scalable MERN event platform with 9-state booking flow, UPI payments, refunds, and schema validation.
+                            • Strengthened multi-layer RBAC security with JWT and middleware hardening, reducing authorization defects by ~30%.
+                            • Optimized React performance using memoization, lint-safe hooks, and optimistic updates, cutting re-renders ~35%.
+                            Tech: React, Node.js, Express.js, MongoDB, Mongoose, Tailwind CSS, JWT, bcrypt, ESLint, RESTful APIs</pre>
+                </div>
+                
+                <div>
+                    <h3>AI Virtual Therapy Assistant </h3>
+                         <pre>
+                            • Created an AI-assisted CBT chatbot with structured dialogue flows, improving user understanding and clarity by 25%.
+                            • Implemented intent recovery and fallback routing, reducing conversation failures and interruptions by 30%.
+                            • Refined short-term context memory handling, improving response relevance and reducing repeated queries by 20%.
+                            Tech: HTML, CSS, JavaScript, Node.js, Express.js, MongoDB, Google Gemini AP</pre>
+                </div>
+        """;
+
+    }
+
 }
