@@ -93,7 +93,15 @@ public class MyPortfolio {
                             Tech: HTML, CSS, JavaScript, Node.js, Express.js, MongoDB, Google Gemini AP</pre>
                 </div>
         """;
-
+    }
+    @GetMapping("/contacts")
+    public String Contacts() {
+        return """
+                <h1>Contacts</h1>
+                Mob : 9115410470
+                <br>
+                Email : tiwari.amit4356@gmail.com"
+                """;
     }
 
 }
