@@ -36,4 +36,44 @@ public class StudentController {
         return ResponseEntity.status(200).body(student);
     }
 
+    @PutMapping("/put/{id}")
+    public ResponseEntity<?> putStudent(
+            @PathVariable int id,
+            @RequestBody Student student) {
+
+        Student updatedStudent = studentService.putStudent(id, student);
+
+        if (updatedStudent == null) {
+            return ResponseEntity.status(404).body("Student not found");
+        }
+
+        return ResponseEntity.ok(updatedStudent);
+    }
+
+    @PatchMapping("/patch/{id}")
+    public ResponseEntity<?> patchStudent(
+            @PathVariable int id,
+            @RequestBody Student student) {
+
+        Student updatedStudent = studentService.patchStudent(id, student);
+
+        if (updatedStudent == null) {
+            return ResponseEntity.status(404).body("Student not found");
+        }
+
+        return ResponseEntity.ok(updatedStudent);
+    }
+
+    @DeleteMapping("/delete/{id}")
+    public ResponseEntity<?> deleteStudent(@PathVariable int id) {
+
+        boolean deleted = studentService.deleteStudent(id);
+
+        if (!deleted) {
+            return ResponseEntity.status(404).body("Student not found");
+        }
+
+        return ResponseEntity.ok("Student deleted successfully");
+    }
+
 }
