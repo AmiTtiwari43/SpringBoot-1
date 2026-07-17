@@ -1,5 +1,7 @@
-package com.amit.demo.StudentServer;
+package com.amit.demo.StudentServer.Service;
 
+import com.amit.demo.StudentServer.Entity.Student;
+import com.amit.demo.StudentServer.Repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
