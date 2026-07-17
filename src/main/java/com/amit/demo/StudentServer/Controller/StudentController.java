@@ -4,9 +4,7 @@ import com.amit.demo.StudentServer.Entity.Student;
 import com.amit.demo.StudentServer.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 public class StudentController {
@@ -21,26 +19,21 @@ public class StudentController {
 
     //1. Store the student -- POST
     @PostMapping ("/create")
-    public ResponseEntity<Student> storeStudent(@RequestBody Student student){
+    public ResponseEntity<?> storeStudent(@RequestBody Student student) {
 
-       Student result =  studentService.studentValidate(student);
+        Student result = studentService.studentValidate(student);
 
-       if(result == null)
-           return ResponseEntity.status(400).body(result);
+        if (result == null)
+            return ResponseEntity.status(400).body("Invalid Input");
 
-       return ResponseEntity.status(201).body(result);
+        return ResponseEntity.status(201).body(result);
 
-
-
-
-//        int id = student.getId();
-//        int age = student.getAge();
-//        String name = student.getName();
-//        String department = student.getDepartment();
-//
-//        return "id: "+ id +
-//                ", name: " + name +
-//                ", age: " + age +
-//                ", department: " + department;
     }
+
+    @GetMapping ("/get/{id}")
+    public ResponseEntity<?> getStudentById(@PathVariable int id){
+        Student student = studentService.getStudentById(id);
+        return ResponseEntity.status(200).body(student);
+    }
+
 }

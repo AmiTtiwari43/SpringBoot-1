@@ -30,4 +30,7 @@ public class StudentService {
         return student;
     }
 
+    public Student getStudentById(int id){
+        return studentRepository.findById(id).orElse(null);
+    }
 }
