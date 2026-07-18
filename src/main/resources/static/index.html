@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Management System</title>
+
+    <link rel="stylesheet" href="style.css">
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="background"></div>
+
+<header>
+
+    <h1>🎓 Student Management System</h1>
+
+    <p>Spring Boot + HTML + CSS + JavaScript</p>
+
+</header>
+
+<section class="dashboard">
+
+    <div class="card">
+
+        <h2>Total Operations</h2>
+
+        <h1 id="counter">0</h1>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Last Operation</h2>
+
+        <h3 id="lastOperation">None</h3>
+
+    </div>
+
+    <div class="card">
+
+        <h2>Status</h2>
+
+        <span id="status" class="status success">Ready</span>
+
+    </div>
+
+</section>
+
+<section class="container">
+
+    <div class="left">
+
+        <h2>Student Details</h2>
+
+        <div class="input-group">
+
+            <label>ID</label>
+            <input type="number" id="id">
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Name</label>
+
+            <input type="text" id="name">
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Age</label>
+
+            <input type="number" id="age">
+
+        </div>
+
+        <div class="input-group">
+
+            <label>Department</label>
+
+            <input type="text" id="department">
+
+        </div>
+
+        <div class="buttons">
+
+            <button class="create" onclick="createStudent()">
+
+                ➕ Create
+
+            </button>
+
+            <button class="get" onclick="getStudent()">
+
+                🔍 Get
+
+            </button>
+
+            <button class="update" onclick="updateStudent()">
+
+                ✏ Update
+
+            </button>
+
+            <button class="patch" onclick="patchStudent()">
+
+                🩹 Patch
+
+            </button>
+
+            <button class="delete" onclick="deleteStudent()">
+
+                🗑 Delete
+
+            </button>
+
+            <button class="clear" onclick="clearFields()">
+
+                🧹 Clear
+
+            </button>
+
+        </div>
+
+    </div>
+
+    <div class="right">
+
+        <h2>Student Information</h2>
+
+        <div class="student-card">
+
+            <h3 id="studentName">No Student Selected</h3>
+
+            <p><strong>ID:</strong> <span id="displayId">-</span></p>
+
+            <p><strong>Age:</strong> <span id="displayAge">-</span></p>
+
+            <p><strong>Department:</strong> <span id="displayDepartment">-</span></p>
+
+        </div>
+
+        <h2>API Response</h2>
+
+        <pre id="result">
+
+Waiting for operation...
+
+</pre>
+
+    </div>
+
+</section>
+
+<section class="history">
+
+    <h2>Recent Operations</h2>
+
+    <ul id="historyList">
+
+        <li>No operations yet.</li>
+
+    </ul>
+
+</section>
+
+<footer>
+
+    Made with ❤️ using Spring Boot
+
+</footer>
+
+<div id="loader" class="loader hidden">
+
+    <div class="spinner"></div>
+
+    <p>Loading...</p>
+
+</div>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

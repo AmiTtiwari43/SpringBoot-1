@@ -5,35 +5,49 @@ import com.amit.demo.StudentServer.Repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
+
 @Service
 public class StudentService {
 
-    StudentRepository studentRepository;
+    private final StudentRepository studentRepository;
 
     @Autowired
     public StudentService(StudentRepository studentRepository) {
         this.studentRepository = studentRepository;
     }
 
-    public Student studentValidate(Student student){
+    // CREATE
+    public Student studentValidate(Student student) {
 
-        int id = student.getId();
-        int age = student.getAge();
-        String name = student.getName();
-        String department = student.getDepartment();
-
-        if(id < 0 || age < 0 || name == null || department == null){
+        if (student == null) {
             return null;
         }
 
-        studentRepository.save(student);
-        return student;
+        if (student.getName() == null || student.getName().trim().isEmpty()) {
+            return null;
+        }
+
+        if (student.getDepartment() == null || student.getDepartment().trim().isEmpty()) {
+            return null;
+        }
+
+        if (student.getAge() <= 0) {
+            return null;
+        }
+
+        student.setCreatedAt(LocalDateTime.now());
+        student.setUpdatedAt(LocalDateTime.now());
+
+        return studentRepository.save(student);
     }
 
-    public Student getStudentById(int id){
+    // READ
+    public Student getStudentById(int id) {
         return studentRepository.findById(id).orElse(null);
     }
 
+    // PUT
     public Student putStudent(int id, Student updatedStudent) {
 
         Student existingStudent = studentRepository.findById(id).orElse(null);
@@ -46,10 +60,16 @@ public class StudentService {
         existingStudent.setAge(updatedStudent.getAge());
         existingStudent.setDepartment(updatedStudent.getDepartment());
 
+        // Keep old creation time
+        existingStudent.setCreatedAt(existingStudent.getCreatedAt());
+
+        // Update time
+        existingStudent.setUpdatedAt(LocalDateTime.now());
+
         return studentRepository.save(existingStudent);
     }
 
-
+    // PATCH
     public Student patchStudent(int id, Student student) {
 
         Student existingStudent = studentRepository.findById(id).orElse(null);
@@ -66,13 +86,16 @@ public class StudentService {
             existingStudent.setDepartment(student.getDepartment());
         }
 
-        if (student.getAge() != 0) {
+        if (student.getAge() > 0) {
             existingStudent.setAge(student.getAge());
         }
+
+        existingStudent.setUpdatedAt(LocalDateTime.now());
 
         return studentRepository.save(existingStudent);
     }
 
+    // DELETE
     public boolean deleteStudent(int id) {
 
         Student student = studentRepository.findById(id).orElse(null);
@@ -82,6 +105,7 @@ public class StudentService {
         }
 
         studentRepository.delete(student);
+
         return true;
     }
 }
