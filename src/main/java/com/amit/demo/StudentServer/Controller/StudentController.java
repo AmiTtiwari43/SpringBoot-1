@@ -1,6 +1,7 @@
 package com.amit.demo.StudentServer.Controller;
 
-import com.amit.demo.StudentServer.Entity.Student;
+import com.amit.demo.StudentServer.DTO.CreateStudentRequestDTO;
+import com.amit.demo.StudentServer.DTO.CreateStudentResponseDTO;
 import com.amit.demo.StudentServer.Service.StudentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -18,58 +19,61 @@ public class StudentController {
 
     // CREATE
     @PostMapping("/create")
-    public ResponseEntity<?> storeStudent(@RequestBody Student student) {
+    public ResponseEntity<?> storeStudent(
+            @RequestBody CreateStudentRequestDTO requestDTO) {
 
-        Student result = studentService.studentValidate(student);
+        CreateStudentResponseDTO responseDTO = studentService.createStudent(requestDTO);
 
-        if (result == null) {
-            return ResponseEntity.status(400).body("Invalid Input");
+        if (responseDTO == null) {
+            return ResponseEntity.badRequest().body("Invalid Input");
         }
 
-        return ResponseEntity.status(201).body(result);
+        return ResponseEntity.ok(responseDTO);
     }
 
     // READ
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getStudentById(@PathVariable int id) {
 
-        Student student = studentService.getStudentById(id);
+        CreateStudentResponseDTO responseDTO = studentService.getStudentById(id);
 
-        if (student == null) {
-            return ResponseEntity.status(404).body("Student not found");
+        if (responseDTO == null) {
+            return ResponseEntity.badRequest().body("Student not found");
         }
 
-        return ResponseEntity.ok(student);
+        return ResponseEntity.ok(responseDTO);
     }
 
     // PUT
     @PutMapping("/put/{id}")
     public ResponseEntity<?> putStudent(
             @PathVariable int id,
-            @RequestBody Student student) {
+            @RequestBody CreateStudentRequestDTO requestDTO) {
 
-        Student updatedStudent = studentService.putStudent(id, student);
+        CreateStudentResponseDTO responseDTO =
+                studentService.putStudent(id, requestDTO);
 
-        if (updatedStudent == null) {
-            return ResponseEntity.status(404).body("Student not found");
+        if (responseDTO == null) {
+            return ResponseEntity.badRequest().body("Student not found or Invalid Input");
         }
 
-        return ResponseEntity.ok(updatedStudent);
+        return ResponseEntity.ok(responseDTO);
     }
 
     // PATCH
     @PatchMapping("/patch/{id}")
     public ResponseEntity<?> patchStudent(
             @PathVariable int id,
-            @RequestBody Student student) {
+            @RequestBody CreateStudentRequestDTO requestDTO) {
 
-        Student updatedStudent = studentService.patchStudent(id, student);
+        CreateStudentResponseDTO responseDTO =
+                studentService.patchStudent(id, requestDTO);
 
-        if (updatedStudent == null) {
-            return ResponseEntity.status(404).body("Student not found");
+        if (responseDTO == null) {
+            return ResponseEntity.badRequest().body("Student not found");
         }
 
-        return ResponseEntity.ok(updatedStudent);
+        return ResponseEntity.ok(responseDTO);
     }
 
     // DELETE
@@ -79,7 +83,7 @@ public class StudentController {
         boolean deleted = studentService.deleteStudent(id);
 
         if (!deleted) {
-            return ResponseEntity.status(404).body("Student not found");
+            return ResponseEntity.badRequest().body("Student not found");
         }
 
         return ResponseEntity.ok("Student deleted successfully");

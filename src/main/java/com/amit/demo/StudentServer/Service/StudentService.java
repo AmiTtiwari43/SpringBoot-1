@@ -1,5 +1,7 @@
 package com.amit.demo.StudentServer.Service;
 
+import com.amit.demo.StudentServer.DTO.CreateStudentRequestDTO;
+import com.amit.demo.StudentServer.DTO.CreateStudentResponseDTO;
 import com.amit.demo.StudentServer.Entity.Student;
 import com.amit.demo.StudentServer.Repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,81 +20,115 @@ public class StudentService {
     }
 
     // CREATE
-    public Student studentValidate(Student student) {
+    public CreateStudentResponseDTO createStudent(CreateStudentRequestDTO requestDTO) {
+
+        if (requestDTO == null) {
+            return null;
+        }
+
+        if (requestDTO.getName() == null || requestDTO.getName().trim().isEmpty()) {
+            return null;
+        }
+
+        if (requestDTO.getDepartment() == null || requestDTO.getDepartment().trim().isEmpty()) {
+            return null;
+        }
+
+        if (requestDTO.getAge() <= 0) {
+            return null;
+        }
+
+        Student student = new Student();
+        student.setName(requestDTO.getName().trim());
+        student.setAge(requestDTO.getAge());
+        student.setDepartment(requestDTO.getDepartment().trim());
+
+        student.setCreatedAt(LocalDateTime.now());
+        student.setUpdatedAt(LocalDateTime.now());
+
+        Student savedStudent = studentRepository.save(student);
+
+        return mapToResponseDTO(savedStudent);
+    }
+
+    // READ
+    public CreateStudentResponseDTO getStudentById(int id) {
+
+        Student student = studentRepository.findById(id).orElse(null);
 
         if (student == null) {
             return null;
         }
 
-        if (student.getName() == null || student.getName().trim().isEmpty()) {
-            return null;
-        }
-
-        if (student.getDepartment() == null || student.getDepartment().trim().isEmpty()) {
-            return null;
-        }
-
-        if (student.getAge() <= 0) {
-            return null;
-        }
-
-        student.setCreatedAt(LocalDateTime.now());
-        student.setUpdatedAt(LocalDateTime.now());
-
-        return studentRepository.save(student);
-    }
-
-    // READ
-    public Student getStudentById(int id) {
-        return studentRepository.findById(id).orElse(null);
+        return mapToResponseDTO(student);
     }
 
     // PUT
-    public Student putStudent(int id, Student updatedStudent) {
+    public CreateStudentResponseDTO putStudent(
+            int id,
+            CreateStudentRequestDTO requestDTO) {
 
         Student existingStudent = studentRepository.findById(id).orElse(null);
 
-        if (existingStudent == null) {
+        if (existingStudent == null || requestDTO == null) {
             return null;
         }
 
-        existingStudent.setName(updatedStudent.getName());
-        existingStudent.setAge(updatedStudent.getAge());
-        existingStudent.setDepartment(updatedStudent.getDepartment());
+        if (requestDTO.getName() == null || requestDTO.getName().trim().isEmpty()) {
+            return null;
+        }
 
-        // Keep old creation time
-        existingStudent.setCreatedAt(existingStudent.getCreatedAt());
+        if (requestDTO.getDepartment() == null || requestDTO.getDepartment().trim().isEmpty()) {
+            return null;
+        }
 
-        // Update time
+        if (requestDTO.getAge() <= 0) {
+            return null;
+        }
+
+        existingStudent.setName(requestDTO.getName().trim());
+        existingStudent.setAge(requestDTO.getAge());
+        existingStudent.setDepartment(requestDTO.getDepartment().trim());
+
         existingStudent.setUpdatedAt(LocalDateTime.now());
 
-        return studentRepository.save(existingStudent);
+        Student updatedStudent = studentRepository.save(existingStudent);
+
+        return mapToResponseDTO(updatedStudent);
     }
 
     // PATCH
-    public Student patchStudent(int id, Student student) {
+    public CreateStudentResponseDTO patchStudent(
+            int id,
+            CreateStudentRequestDTO requestDTO) {
 
         Student existingStudent = studentRepository.findById(id).orElse(null);
 
-        if (existingStudent == null) {
+        if (existingStudent == null || requestDTO == null) {
             return null;
         }
 
-        if (student.getName() != null) {
-            existingStudent.setName(student.getName());
+        if (requestDTO.getName() != null &&
+                !requestDTO.getName().trim().isEmpty()) {
+
+            existingStudent.setName(requestDTO.getName().trim());
         }
 
-        if (student.getDepartment() != null) {
-            existingStudent.setDepartment(student.getDepartment());
+        if (requestDTO.getDepartment() != null &&
+                !requestDTO.getDepartment().trim().isEmpty()) {
+
+            existingStudent.setDepartment(requestDTO.getDepartment().trim());
         }
 
-        if (student.getAge() > 0) {
-            existingStudent.setAge(student.getAge());
+        if (requestDTO.getAge() > 0) {
+            existingStudent.setAge(requestDTO.getAge());
         }
 
         existingStudent.setUpdatedAt(LocalDateTime.now());
 
-        return studentRepository.save(existingStudent);
+        Student updatedStudent = studentRepository.save(existingStudent);
+
+        return mapToResponseDTO(updatedStudent);
     }
 
     // DELETE
@@ -107,5 +143,19 @@ public class StudentService {
         studentRepository.delete(student);
 
         return true;
+    }
+
+    // Entity -> Response DTO
+    private CreateStudentResponseDTO mapToResponseDTO(Student student) {
+
+        CreateStudentResponseDTO responseDTO =
+                new CreateStudentResponseDTO();
+
+        responseDTO.setId(student.getId());
+        responseDTO.setName(student.getName());
+        responseDTO.setAge(student.getAge());
+        responseDTO.setDepartment(student.getDepartment());
+
+        return responseDTO;
     }
 }
