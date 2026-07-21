@@ -26,21 +26,23 @@ public class StudentController {
             @Valid @RequestBody CreateStudentRequestDTO dto) {
 
         CreateStudentResponseDTO response = studentService.createStudent(dto);
+
         return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     // READ
     @GetMapping("/get/{id}")
-    public ResponseEntity<CreateStudentResponseDTO> getStudentById(@PathVariable int id) {
+    public ResponseEntity<CreateStudentResponseDTO> getStudentById(
+            @PathVariable int id) {
 
         CreateStudentResponseDTO response = studentService.getStudentById(id);
 
         return ResponseEntity.ok(response);
     }
 
-    // PUT
+    // UPDATE (PUT)
     @PutMapping("/update/{id}")
-    public ResponseEntity<CreateStudentResponseDTO> putStudent(
+    public ResponseEntity<CreateStudentResponseDTO> updateStudent(
             @PathVariable int id,
             @Valid @RequestBody CreateStudentRequestDTO dto) {
 
@@ -49,7 +51,7 @@ public class StudentController {
         return ResponseEntity.ok(response);
     }
 
-    // PATCH
+    // PARTIAL UPDATE (PATCH)
     @PatchMapping("/patch/{id}")
     public ResponseEntity<CreateStudentResponseDTO> patchStudent(
             @PathVariable int id,
@@ -66,6 +68,6 @@ public class StudentController {
 
         studentService.deleteStudent(id);
 
-        return ResponseEntity.ok("Student deleted successfully");
+        return ResponseEntity.ok("Student deleted successfully.");
     }
 }

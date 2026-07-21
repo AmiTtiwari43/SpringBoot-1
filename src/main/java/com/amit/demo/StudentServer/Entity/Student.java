@@ -31,6 +31,25 @@ public class Student {
     @Column(name = "updated_at")
     private LocalDateTime updatedAt;
 
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public void setUpdatedAt(LocalDateTime updatedAt) {
+        this.updatedAt = updatedAt;
+    }
+
+    public void setCreatedAt(LocalDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    @Column(unique = true)
+    private String email;
+
     public Student() {
     }
 
