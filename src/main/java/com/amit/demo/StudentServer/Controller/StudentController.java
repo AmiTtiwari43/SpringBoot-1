@@ -31,46 +31,31 @@ public class StudentController {
 
     // READ
     @GetMapping("/get/{id}")
-    public ResponseEntity<?> getStudentById(@PathVariable int id) {
+    public ResponseEntity<CreateStudentResponseDTO> getStudentById(@PathVariable int id) {
 
         CreateStudentResponseDTO response = studentService.getStudentById(id);
-
-        if (response == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Student not found");
-        }
 
         return ResponseEntity.ok(response);
     }
 
     // PUT
     @PutMapping("/update/{id}")
-    public ResponseEntity<?> putStudent(
+    public ResponseEntity<CreateStudentResponseDTO> putStudent(
             @PathVariable int id,
             @Valid @RequestBody CreateStudentRequestDTO dto) {
 
         CreateStudentResponseDTO response = studentService.putStudent(id, dto);
-
-        if (response == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Student not found");
-        }
 
         return ResponseEntity.ok(response);
     }
 
     // PATCH
     @PatchMapping("/patch/{id}")
-    public ResponseEntity<?> patchStudent(
+    public ResponseEntity<CreateStudentResponseDTO> patchStudent(
             @PathVariable int id,
             @RequestBody CreateStudentRequestDTO dto) {
 
         CreateStudentResponseDTO response = studentService.patchStudent(id, dto);
-
-        if (response == null) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Student not found");
-        }
 
         return ResponseEntity.ok(response);
     }
@@ -79,12 +64,7 @@ public class StudentController {
     @DeleteMapping("/delete/{id}")
     public ResponseEntity<String> deleteStudent(@PathVariable int id) {
 
-        boolean deleted = studentService.deleteStudent(id);
-
-        if (!deleted) {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND)
-                    .body("Student not found");
-        }
+        studentService.deleteStudent(id);
 
         return ResponseEntity.ok("Student deleted successfully");
     }
