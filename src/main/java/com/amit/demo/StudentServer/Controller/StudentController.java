@@ -3,11 +3,14 @@ package com.amit.demo.StudentServer.Controller;
 import com.amit.demo.StudentServer.DTO.CreateStudentRequestDTO;
 import com.amit.demo.StudentServer.DTO.CreateStudentResponseDTO;
 import com.amit.demo.StudentServer.Service.StudentService;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
+@RequestMapping("/students")
 public class StudentController {
 
     private final StudentService studentService;
@@ -19,71 +22,68 @@ public class StudentController {
 
     // CREATE
     @PostMapping("/create")
-    public ResponseEntity<?> storeStudent(
-            @RequestBody CreateStudentRequestDTO requestDTO) {
+    public ResponseEntity<CreateStudentResponseDTO> createStudent(
+            @Valid @RequestBody CreateStudentRequestDTO dto) {
 
-        CreateStudentResponseDTO responseDTO = studentService.createStudent(requestDTO);
-
-        if (responseDTO == null) {
-            return ResponseEntity.badRequest().body("Invalid Input");
-        }
-
-        return ResponseEntity.ok(responseDTO);
+        CreateStudentResponseDTO response = studentService.createStudent(dto);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 
     // READ
     @GetMapping("/get/{id}")
     public ResponseEntity<?> getStudentById(@PathVariable int id) {
 
-        CreateStudentResponseDTO responseDTO = studentService.getStudentById(id);
+        CreateStudentResponseDTO response = studentService.getStudentById(id);
 
-        if (responseDTO == null) {
-            return ResponseEntity.badRequest().body("Student not found");
+        if (response == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Student not found");
         }
 
-        return ResponseEntity.ok(responseDTO);
+        return ResponseEntity.ok(response);
     }
 
     // PUT
-    @PutMapping("/put/{id}")
+    @PutMapping("/update/{id}")
     public ResponseEntity<?> putStudent(
             @PathVariable int id,
-            @RequestBody CreateStudentRequestDTO requestDTO) {
+            @Valid @RequestBody CreateStudentRequestDTO dto) {
 
-        CreateStudentResponseDTO responseDTO =
-                studentService.putStudent(id, requestDTO);
+        CreateStudentResponseDTO response = studentService.putStudent(id, dto);
 
-        if (responseDTO == null) {
-            return ResponseEntity.badRequest().body("Student not found or Invalid Input");
+        if (response == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Student not found");
         }
 
-        return ResponseEntity.ok(responseDTO);
+        return ResponseEntity.ok(response);
     }
 
     // PATCH
     @PatchMapping("/patch/{id}")
     public ResponseEntity<?> patchStudent(
             @PathVariable int id,
-            @RequestBody CreateStudentRequestDTO requestDTO) {
+            @RequestBody CreateStudentRequestDTO dto) {
 
-        CreateStudentResponseDTO responseDTO =
-                studentService.patchStudent(id, requestDTO);
+        CreateStudentResponseDTO response = studentService.patchStudent(id, dto);
 
-        if (responseDTO == null) {
-            return ResponseEntity.badRequest().body("Student not found");
+        if (response == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Student not found");
         }
 
-        return ResponseEntity.ok(responseDTO);
+        return ResponseEntity.ok(response);
     }
 
     // DELETE
     @DeleteMapping("/delete/{id}")
-    public ResponseEntity<?> deleteStudent(@PathVariable int id) {
+    public ResponseEntity<String> deleteStudent(@PathVariable int id) {
 
         boolean deleted = studentService.deleteStudent(id);
 
         if (!deleted) {
-            return ResponseEntity.badRequest().body("Student not found");
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Student not found");
         }
 
         return ResponseEntity.ok("Student deleted successfully");

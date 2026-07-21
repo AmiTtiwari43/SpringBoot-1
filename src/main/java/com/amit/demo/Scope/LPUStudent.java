@@ -1,0 +1,20 @@
+package com.amit.demo.Scope;
+
+import org.springframework.beans.factory.ObjectFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+@Component
+public class LPUStudent {
+
+    private final ObjectFactory<LPU> lpuFactory;
+
+    @Autowired
+    public LPUStudent(ObjectFactory<LPU> lpuFactory) {
+        this.lpuFactory = lpuFactory;
+    }
+
+    public LPU getLpu() {
+        return lpuFactory.getObject();
+    }
+}
