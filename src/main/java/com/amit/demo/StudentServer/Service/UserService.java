@@ -13,14 +13,14 @@ public class UserService {
     @Autowired
     private UserRepository repository;
 
-    // @Autowired
-    // private PasswordEncoder encoder;
+     @Autowired
+     private PasswordEncoder encoder;
 
     public User createUser(User user){
 
-        // user.setPassword(
-        //         encoder.encode(user.getPassword())
-        // );
+         user.setPassword(
+                 encoder.encode(user.getPassword())
+         );
 
         user.setRoles(List.of("USER"));
 
@@ -41,11 +41,11 @@ public class UserService {
 
         user.setUserName(updated.getUserName());
 
-        // if(updated.getPassword()!=null){
-        //     user.setPassword(
-        //             encoder.encode(updated.getPassword())
-        //     );
-        // }
+         if(updated.getPassword()!=null){
+             user.setPassword(
+                     encoder.encode(updated.getPassword())
+             );
+         }
 
         return repository.save(user);
     }
