@@ -15,43 +15,43 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
 
- @Configuration
- @EnableWebSecurity
- public class SecurityConfig {
+// @Configuration
+// @EnableWebSecurity
+// public class SecurityConfig {
+//
+//     private final UserDetailsServiceImpl userDetailsService;
+//
+//     public SecurityConfig(UserDetailsServiceImpl userDetailsService) {
+//         this.userDetailsService = userDetailsService;
+//     }
+//
+//     @Bean
+//     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+//         http.csrf(csrf -> csrf.disable())
+//                 .userDetailsService(userDetailsService)
+//                 .authorizeHttpRequests(auth -> auth
+//                         .requestMatchers(HttpMethod.POST,
+//                                 "/users/create")
+//                         .permitAll()
+//                         .anyRequest()
+//                         .authenticated()
+//                 )
+//                 .httpBasic(Customizer.withDefaults());
+//         return http.build();
+//
+//     }
 
-     private final UserDetailsServiceImpl userDetailsService;
-
-     public SecurityConfig(UserDetailsServiceImpl userDetailsService) {
-         this.userDetailsService = userDetailsService;
-     }
-
-     @Bean
-     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-         http.csrf(csrf -> csrf.disable())
-                 .userDetailsService(userDetailsService)
-                 .authorizeHttpRequests(auth -> auth
-                         .requestMatchers(HttpMethod.POST,
-                                 "/users/create")
-                         .permitAll()
-                         .anyRequest()
-                         .authenticated()
-                 )
-                 .httpBasic(Customizer.withDefaults());
-         return http.build();
-
-     }
-
-     @Bean
-     public PasswordEncoder passwordEncoder() {
-         return new BCryptPasswordEncoder();
-     }
-
-     @Bean
-     public AuthenticationManager authenticationManager(
-             AuthenticationConfiguration configuration) throws Exception {
-         return configuration.getAuthenticationManager();
-     }
- }
+//     @Bean
+//     public PasswordEncoder passwordEncoder() {
+//         return new BCryptPasswordEncoder();
+//     }
+//
+//     @Bean
+//     public AuthenticationManager authenticationManager(
+//             AuthenticationConfiguration configuration) throws Exception {
+//         return configuration.getAuthenticationManager();
+//     }
+// }
 
 // basic auth ---------------------------------------------------------------------------------
 //
@@ -83,21 +83,22 @@ import org.springframework.security.web.SecurityFilterChain;
 
 // // JWT-------------------------------------------------------------------------------
 
-// @Configuration
-// public class SecurityConfig {
-//     @Bean
-//     public SecurityFilterChain security(HttpSecurity http) throws Exception {
-//         http.csrf(csrf -> csrf.disable())
-//                 .authorizeHttpRequests(auth -> auth
-//                         .anyRequest()
-//                         .permitAll()
-//                 )
-//                 .formLogin(Customizer.withDefaults());
-//         return http.build();
-//     }
+ @Configuration
+ public class SecurityConfig {
+     @Bean
+     public SecurityFilterChain security(HttpSecurity http) throws Exception {
+         http.csrf(csrf -> csrf.disable())
+                 .authorizeHttpRequests(auth -> auth
+                         .anyRequest()
+                         .permitAll()
+                 )
+                 .formLogin(Customizer.withDefaults());
+         return http.build();
+     }
 
-//     @Bean
-//     public PasswordEncoder passwordEncoder() {
-//         return new BCryptPasswordEncoder();
-//     }
-// }
+     @Bean
+     public PasswordEncoder passwordEncoder() {
+         return new BCryptPasswordEncoder();
+     }
+ }
+
